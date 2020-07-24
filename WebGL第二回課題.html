@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ヘリコプター</title>
+
+  <!-- three.jsを読み込む(CDN) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/99/three.min.js"></script>
+
+</head>
+<body>
+ <script>
+  var init = function() {
+
+    var width = 800,
+        height = 600;
+  
+    // レンダラーを作成
+    var renderer = new THREE.WebGLRenderer();
+    renderer.setSize(width, height);
+    document.body.appendChild(renderer.domElement);
+  
+    // シーンを作成
+    var scene = new THREE.Scene();
+  
+    // カメラを作成
+  var camera = new THREE.PerspectiveCamera(45, width / height, 1, 1000);
+  camera.position.set(-0.5, 0.8, 0);
+  camera.rotation.set(-0.25, -0.1, 0);
+
+  // テクスチャー読み込み
+var textureLoader = new THREE.TextureLoader();  
+var texture = textureLoader.load("heliport.png");
+var mat = new THREE.MeshPhongMaterial();
+mat.map = texture;
+
+// 地面を作成
+var planegeometry = new THREE.PlaneGeometry(3, 3, 1, 1);
+//var planematerial = new THREE.MeshPhongMaterial({ color: 0xffd700 });
+var plane = new THREE.Mesh(planegeometry, mat);
+//var plane = new THREE.Mesh(geometry, mat);
+plane.position.set(0, -1.5, -5);
+plane.rotation.x = -1.57;
+scene.add(plane);
+
+// 胴体を作成
+var bodygeometry = new THREE.SphereGeometry(0.5, 32, 32);
+var bodymaterial = new THREE.MeshPhongMaterial({ color: 0x0000ff });
+var body = new THREE.Mesh(bodygeometry, bodymaterial);
+body.scale.x = 2;
+
+// 後部を作成
+var cylinder1geometry = new THREE.CylinderGeometry(0.1, 0.1, 1, 32);
+var cylinder1material = new THREE.MeshPhongMaterial({ color: 0x008000 });
+var cylinder1 = new THREE.Mesh(cylinder1geometry, cylinder1material);
+cylinder1.position.set(1.4, 0, 0);
+cylinder1.rotation.z = 1.57;
+
+// 後部先端を作成
+var conegeometry = new THREE.ConeGeometry(0.1, 0.5, 32);
+var conematerial = new THREE.MeshPhongMaterial({ color: 0x008000 });
+var cone = new THREE.Mesh(conegeometry, conematerial);
+cone.position.set(1.81, 0.25, 0);
+
+// 足を作成
+var leg1geometry = new THREE.CylinderGeometry(0.05, 0.05, 1.5, 4);
+var leg1material = new THREE.MeshPhongMaterial({ color: 0x008000 });
+var leftleg1 = new THREE.Mesh(leg1geometry, leg1material);
+leftleg1.position.set(0, -0.7, -0.2);
+leftleg1.rotation.z = 1.57;
+
+var leg2geometry = new THREE.CylinderGeometry(0.03, 0.03, 0.25, 4);
+var leg2material = new THREE.MeshPhongMaterial({ color: 0x008000 });
+var leftleg2 = new THREE.Mesh(leg2geometry, leg2material);
+leftleg2.position.set(0.35, -0.55, -0.2);
+leftleg2.rotation.x =0.1;
+
+var leftleg3 = new THREE.Mesh(leg2geometry, leg2material);
+leftleg3.position.set(-0.35, -0.55, -0.2);
+leftleg3.rotation.x =0.1;
+
+var rightleg1 = new THREE.Mesh(leg1geometry, leg1material);
+rightleg1.position.set(0, -0.7, 0.2);
+rightleg1.rotation.z = 1.57;
+
+var rightleg2 = new THREE.Mesh(leg2geometry, leg2material);
+rightleg2.position.set(0.35, -0.55, 0.2);
+rightleg2.rotation.x =-0.1;
+
+var rightleg3 = new THREE.Mesh(leg2geometry, leg2material);
+rightleg3.position.set(-0.35, -0.55, 0.2);
+rightleg3.rotation.x =-0.1;
+
+// プロペラと胴体の接続部分を作成
+var cylinder2geometry = new THREE.CylinderGeometry(0.05, 0.05, 0.2, 32);
+var cylinder2material = new THREE.MeshPhongMaterial({ color: 0xffff00 });
+var cylinder2 = new THREE.Mesh(cylinder2geometry, cylinder2material);
+cylinder2.position.set(0, 0.6, 0);
+
+// プロペラを作成
+var progeometry = new THREE.SphereGeometry(0.2, 32, 32);
+var promaterial = new THREE.MeshPhongMaterial({ color: 0xff4500 });
+var pro1 = new THREE.Mesh(progeometry, promaterial);
+pro1.position.set(0.8, 0.7, 0);
+pro1.rotation.z = 0.1;
+pro1.scale.set(4, 0.25, 0.4);
+
+var pro2 = new THREE.Mesh(progeometry, promaterial);
+pro2.position.set(0, 0.7, -0.8);
+pro2.rotation.set(0, 1.57, 0.1);
+pro2.scale.set(4, 0.25, 0.4);
+
+var pro3 = new THREE.Mesh(progeometry, promaterial);
+pro3.position.set(0, 0.7, 0.8);
+pro3.rotation.set(0, 4.71, 0.1);
+pro3.scale.set(4, 0.25, 0.4);
+
+var pro4 = new THREE.Mesh(progeometry, promaterial);
+pro4.position.set(-0.8, 0.7, 0);
+pro4.rotation.set(0, 3.14, 0.1);
+pro4.scale.set(4, 0.25, 0.4);
+
+ //ヘリコプターのオブジェクト
+    //const all = new THREE.Object3D(); 
+    const heli = new THREE.Group()
+    heli.add(body); // 胴体を追加 
+    heli.add(cylinder1); // 後部を追加 
+    heli.add(cone); // 後部先端を追加 
+    heli.add(leftleg1); //各足の追加
+    heli.add(leftleg2);
+    heli.add(leftleg3);
+    heli.add(rightleg1);
+    heli.add(rightleg2);
+    heli.add(rightleg3);
+    heli.add(cylinder2); // プロペラと胴体の接続部分を追加
+    heli.position.set(0, 0.25, -5);//ヘリコプターグループの原点の位置
+    scene.add(heli);
+
+ //プロペラのオブジェクト
+    const pro = new THREE.Group()
+    pro.add(pro1); //各プロペラの追加
+    pro.add(pro2);
+    pro.add(pro3);
+    pro.add(pro4);
+    pro.position.set(0, 0.25, -5);
+    scene.add(pro);
+
+// 平行光源
+var directionalLight1 = new THREE.DirectionalLight(0xffffff);
+directionalLight1.position.set(1, 1, 1);
+// シーンに追加
+scene.add(directionalLight1);
+
+var directionalLight2 = new THREE.DirectionalLight(0xffffff);
+directionalLight2.position.set(-10, 1, 1);
+// シーンに追加
+scene.add(directionalLight2);
+
+var directionalLight3 = new THREE.DirectionalLight(0xffffff);
+directionalLight3.position.set(1, -10, 1);
+// シーンに追加
+scene.add(directionalLight3);
+
+// 初回実行
+var update = function() {
+  requestAnimationFrame(update);
+
+  // ヘリコプター本体を回転させる
+  heli.rotation.y += 0.001;
+
+  // プロペラを回転させる
+  pro.rotation.y -= 0.1;
+
+  renderer.render(scene, camera);
+};
+update();
+}
+  window.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
