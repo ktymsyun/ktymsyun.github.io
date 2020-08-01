@@ -1,6 +1,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <title>太陽と金銀銅の星々</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
     <script src="OrbitControls.js"></script>
     <script>
@@ -33,10 +34,10 @@
         const controls = new THREE.OrbitControls(camera);
 
         // helper
-        const gridHelper = new THREE.GridHelper(1000,20); // size, step
-        scene.add(gridHelper);
-        const axisHelper = new THREE.AxisHelper(1000); //軸の長さ　X：赤、Y：緑、z：青
-        scene.add(axisHelper);
+        //const gridHelper = new THREE.GridHelper(1000,20); // size, step
+        //scene.add(gridHelper);
+        //const axisHelper = new THREE.AxisHelper(1000); //軸の長さ　X：赤、Y：緑、z：青
+        //scene.add(axisHelper);
 
         // texture作成
         var textureLoader = new THREE.TextureLoader();
@@ -60,6 +61,7 @@
         const material3 = new THREE.MeshPhongMaterial();
         material3.map= bronzetexture;
 
+        //金色の星々の作成
         for (let i = 0; i < 200; i++) {
           const mesh1 = new THREE.Mesh(geometry, material1);
           mesh1.position.x = (Math.random() - 0.5) * 2000;
@@ -69,26 +71,28 @@
           group1.add(mesh1);
         }
 
+        //銀色の星々の作成
         for (let j = 0; j < 200; j++) {
           const mesh2 = new THREE.Mesh(geometry, material2);
-          mesh2.position.x = (Math.random() - 0.5) * 2000;
-          mesh2.position.y = (Math.random() - 0.5) * 2000;
-          mesh2.position.z = (Math.random() - 0.5) * 2000;
+          mesh2.position.x = (Math.random() - 0.5) * 2500;
+          mesh2.position.y = (Math.random() - 0.5) * 2500;
+          mesh2.position.z = (Math.random() - 0.5) * 2500;
           // グループに格納する
           group2.add(mesh2);
         }
 
+        //銅色の星々の作成
         for (let k = 0; k < 200; k++) {
           const mesh3 = new THREE.Mesh(geometry, material3);
-          mesh3.position.x = (Math.random() - 0.5) * 2000;
-          mesh3.position.y = (Math.random() - 0.5) * 2000;
-          mesh3.position.z = (Math.random() - 0.5) * 2000;
+          mesh3.position.x = (Math.random() - 0.5) * 3000;
+          mesh3.position.y = (Math.random() - 0.5) * 3000;
+          mesh3.position.z = (Math.random() - 0.5) * 3000;
           // グループに格納する
           group3.add(mesh3);
         }
 
         // 平面（ポリゴン）を作成
-        var sungeometry = new THREE.PlaneGeometry(350,350);
+        var sungeometry = new THREE.PlaneGeometry(400,400);
         var sunmat = new THREE.MeshBasicMaterial({transparent:true});
         sunmat.map= suntexture;
         var sunplane = new THREE.Mesh( sungeometry, sunmat );
@@ -96,7 +100,7 @@
         scene.add( sunplane );
     
       　 // 光源（環境光）
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
         scene.add(ambientLight);
 
         // 平行光源
@@ -105,7 +109,7 @@
         scene.add(directionalLight1);
         
         // 点光源を作成
-        const light = new THREE.PointLight(0xFFFFFF, 2.5, 0, 0.3);
+        const light = new THREE.PointLight(0xFFFFFF, 3, 0, 0.1);
         scene.add(light);
 
         tick();
