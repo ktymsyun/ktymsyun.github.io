@@ -1,0 +1,129 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
+    <script src="OrbitControls.js"></script>
+    <script>
+      // ページの読み込みを待つ
+      window.addEventListener('load', init);
+
+      function init() {
+        // サイズを指定
+        const width = 960;
+        const height = 540;
+
+        // レンダラーを作成
+        const renderer = new THREE.WebGLRenderer({
+          canvas: document.querySelector('#myCanvas')
+        });
+        renderer.setSize(width, height);
+
+        // シーンを作成
+        const scene = new THREE.Scene();
+
+        // フォグを設定
+        scene.fog = new THREE.Fog(0x000000, 50, 2000);
+
+        // カメラを作成
+        const camera = new THREE.PerspectiveCamera(45, width / height);
+        // カメラの初期座標を設定
+        camera.position.set(0, 0, 1000);
+
+        // カメラコントローラーを作成
+        const controls = new THREE.OrbitControls(camera);
+
+        // helper
+        const gridHelper = new THREE.GridHelper(1000,20); // size, step
+        scene.add(gridHelper);
+        const axisHelper = new THREE.AxisHelper(1000); //軸の長さ　X：赤、Y：緑、z：青
+        scene.add(axisHelper);
+
+        // texture作成
+        var textureLoader = new THREE.TextureLoader();
+        var suntexture = textureLoader.load("img/sun.png");
+        var goldtexture = textureLoader.load("img/gold.jpg");
+        var silvertexture = textureLoader.load("img/silver.jpg");
+        var bronzetexture = textureLoader.load("img/bronze.jpg");
+
+        // グループを作成
+        const group1 = new THREE.Group();
+        scene.add(group1);
+        const group2 = new THREE.Group();
+        scene.add(group2);
+        const group3 = new THREE.Group();
+        scene.add(group3);
+        const geometry = new THREE.SphereGeometry(50, 10, 10);
+        const material1 = new THREE.MeshPhongMaterial();
+        material1.map= goldtexture;
+        const material2 = new THREE.MeshPhongMaterial();
+        material2.map= silvertexture;
+        const material3 = new THREE.MeshPhongMaterial();
+        material3.map= bronzetexture;
+
+        for (let i = 0; i < 200; i++) {
+          const mesh1 = new THREE.Mesh(geometry, material1);
+          mesh1.position.x = (Math.random() - 0.5) * 2000;
+          mesh1.position.y = (Math.random() - 0.5) * 2000;
+          mesh1.position.z = (Math.random() - 0.5) * 2000;
+          // グループに格納する
+          group1.add(mesh1);
+        }
+
+        for (let j = 0; j < 200; j++) {
+          const mesh2 = new THREE.Mesh(geometry, material2);
+          mesh2.position.x = (Math.random() - 0.5) * 2000;
+          mesh2.position.y = (Math.random() - 0.5) * 2000;
+          mesh2.position.z = (Math.random() - 0.5) * 2000;
+          // グループに格納する
+          group2.add(mesh2);
+        }
+
+        for (let k = 0; k < 200; k++) {
+          const mesh3 = new THREE.Mesh(geometry, material3);
+          mesh3.position.x = (Math.random() - 0.5) * 2000;
+          mesh3.position.y = (Math.random() - 0.5) * 2000;
+          mesh3.position.z = (Math.random() - 0.5) * 2000;
+          // グループに格納する
+          group3.add(mesh3);
+        }
+
+        // 平面（ポリゴン）を作成
+        var sungeometry = new THREE.PlaneGeometry(300,300);
+        var sunmat = new THREE.MeshBasicMaterial({transparent:true});
+        sunmat.map= suntexture;
+        var sunplane = new THREE.Mesh( sungeometry, sunmat );
+        sunplane.position.set(0, 0, 0);
+        scene.add( sunplane );
+    
+      　 // 光源（環境光）
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
+        scene.add(ambientLight);
+
+        // 平行光源
+        var directionalLight1 = new THREE.DirectionalLight(0xffffff,0.5);
+        directionalLight1.position.set(1000, 1000, 700);
+        scene.add(directionalLight1);
+        
+        // 点光源を作成
+        const light = new THREE.PointLight(0xFFFFFF, 2.5, 0, 0.5);
+        scene.add(light);
+
+        tick();
+
+        // 毎フレーム時に実行されるループイベントです
+        function tick() {
+          // レンダリング
+          renderer.render(scene, camera);
+          group1.rotateY(0.01);
+          group2.rotateY(0.004);
+          group3.rotateY(0.002);
+          sunplane.rotation.setFromRotationMatrix(camera.matrix);
+          requestAnimationFrame(tick);
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <canvas id="myCanvas"></canvas>
+  </body>
+</html>
