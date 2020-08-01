@@ -88,7 +88,7 @@
         }
 
         // 平面（ポリゴン）を作成
-        var sungeometry = new THREE.PlaneGeometry(300,300);
+        var sungeometry = new THREE.PlaneGeometry(350,350);
         var sunmat = new THREE.MeshBasicMaterial({transparent:true});
         sunmat.map= suntexture;
         var sunplane = new THREE.Mesh( sungeometry, sunmat );
@@ -105,7 +105,7 @@
         scene.add(directionalLight1);
         
         // 点光源を作成
-        const light = new THREE.PointLight(0xFFFFFF, 2.5, 0, 0.5);
+        const light = new THREE.PointLight(0xFFFFFF, 2.5, 0, 0.2);
         scene.add(light);
 
         tick();
