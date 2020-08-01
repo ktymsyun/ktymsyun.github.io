@@ -114,12 +114,12 @@
         function tick() {
           // レンダリング
           renderer.render(scene, camera);
-          group1.rotateX(0.01);
-          group1.rotateY(0.01);
-          group2.rotateX(0.004);
-          group2.rotateY(0.004);
-          group3.rotateX(0.002);
-          group3.rotateY(0.002);
+          group1.rotate(0.01);
+          //group1.rotateY(0.01);
+          group2.rotate(0.004);
+          //group2.rotateY(0.004);
+          group3.rotate(0.002);
+          //group3.rotateY(0.002);
           sunplane.rotation.setFromRotationMatrix(camera.matrix);
           requestAnimationFrame(tick);
         }
