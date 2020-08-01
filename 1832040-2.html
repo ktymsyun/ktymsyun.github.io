@@ -88,7 +88,7 @@
         }
 
         // 平面（ポリゴン）を作成
-        var sungeometry = new THREE.PlaneGeometry(350,350);
+        var sungeometry = new THREE.PlaneGeometry(300,300);
         var sunmat = new THREE.MeshBasicMaterial({transparent:true});
         sunmat.map= suntexture;
         var sunplane = new THREE.Mesh( sungeometry, sunmat );
