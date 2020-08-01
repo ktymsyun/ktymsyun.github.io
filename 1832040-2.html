@@ -88,7 +88,7 @@
         }
 
         // 平面（ポリゴン）を作成
-        var sungeometry = new THREE.PlaneGeometry(300,300);
+        var sungeometry = new THREE.PlaneGeometry(350,350);
         var sunmat = new THREE.MeshBasicMaterial({transparent:true});
         sunmat.map= suntexture;
         var sunplane = new THREE.Mesh( sungeometry, sunmat );
@@ -105,7 +105,7 @@
         scene.add(directionalLight1);
         
         // 点光源を作成
-        const light = new THREE.PointLight(0xFFFFFF, 2.5, 0, 0.5);
+        const light = new THREE.PointLight(0xFFFFFF, 2.5, 0, 0.3);
         scene.add(light);
 
         tick();
@@ -115,11 +115,14 @@
           // レンダリング
           renderer.render(scene, camera);
           group1.rotateX(0.01);
-          //group1.rotateY(0.01);
+          group1.rotateY(0.01);
+          group1.rotateZ(0.01);
           group2.rotateX(0.004);
-          //group2.rotateY(0.004);
+          group2.rotateY(0.004);
+          group2.rotateZ(0.004);
           group3.rotateX(0.002);
-          //group3.rotateY(0.002);
+          group3.rotateY(0.002);
+          group3.rotateZ(0.002);
           sunplane.rotation.setFromRotationMatrix(camera.matrix);
           requestAnimationFrame(tick);
         }
